@@ -1,0 +1,28 @@
+{
+	"name": "wi_bandsintown",
+	"version": "1.0.3",
+	"copyright": "Jannik Mewes / Wolf Interactive",
+
+	"author": "Jannik Mewes / Wolf Interactive",
+	"author_email": "jm@wolfinteractive.de",
+	"author_url": "http://wolfinteractive.de",
+	"license": "http://www.gnu.org/copyleft/gpl.html GNU/GPL",
+
+	"prefix": "wi_bit",
+	"id": "wi_bandsintown",
+	"camel": "wiBandsintown",
+	"title": "WI Bandsintown Tour Dates Module",
+	"descr": "Use Bandsintown API to load and display an artist's tour dates. In opposite to javascript-based bandsintown widget it has additional layout/feature settings, no \"own\" style and it is responsive.",
+
+	"devDependencies": {
+		"grunt": "~0.4.1",
+		"grunt-contrib-copy": "~1.0.0",
+		"grunt-contrib-concat": "~1.0.1",
+		"grunt-contrib-compress": "~1.4.1",
+        "grunt-contrib-cssmin" : "~2.0.0",
+        "grunt-contrib-watch" : "~1.0.0",
+        "grunt-contrib-less" : "~1.4.1",
+        "grunt-contrib-uglify" : "~2.3.0",
+        "grunt-contrib-clean" : "~1.1.0"
+	}
+}

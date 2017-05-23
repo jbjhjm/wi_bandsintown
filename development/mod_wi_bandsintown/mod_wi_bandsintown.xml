@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.3.0" method="upgrade" client="site">
+
+	<name>mod_wi_bandsintown</name>
+	<author><%= author %></author>
+	<creationDate><%= grunt.template.today('yyyy-mm-dd') %></creationDate>
+	<copyright>Copyright © <%= grunt.template.today('yyyy') %>, <%= author %>, All Rights Reserved.</copyright>
+	<license><%= license %></license>
+	<authorEmail><%= author %></authorEmail>
+	<authorUrl><%= author_url %></authorUrl>
+	<version><%= version %></version>
+	<description><%= descr %></description>
+
+	<files>
+		<filename module="mod_wi_bandsintown">mod_wi_bandsintown.php</filename>
+		<filename>mod_wi_bandsintown.xml</filename>
+		<filename>index.html</filename>
+		<folder>assets</folder>
+		<folder>tmpl</folder>
+	</files>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB.mod_wi_bandsintown.ini</language>
+		<language tag="en-GB">en-GB.mod_wi_bandsintown.sys.ini</language>
+		<language tag="de-DE">de-DEB.mod_wi_bandsintown.ini</language>
+		<language tag="de-DE">de-DEB.mod_wi_bandsintown.sys.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params" >
+			<fieldset name="basic">
+
+				<field type="note" name="spacer1" label="MOD_WI_BANDSINTOWN_FIELD_HEADER_GENERAL" />
+				<field type="text" name="appId" label="MOD_WI_BANDSINTOWN_FIELD_APPID" description="MOD_WI_BANDSINTOWN_FIELD_APPID_DESC" default="" required="1"></field>
+				<field type="text" name="artistName" label="MOD_WI_BANDSINTOWN_FIELD_ARTIST" description="MOD_WI_BANDSINTOWN_FIELD_ARTIST_DESC" default="" required="1"></field>
+				<field type="note" name="general_info" description="MOD_WI_BANDSINTOWN_GENERAL_INFO" />
+				<field type="radio" name="timeRange" label="MOD_WI_BANDSINTOWN_FIELD_PASTEVENTS" description="MOD_WI_BANDSINTOWN_FIELD_PASTEVENTS_DESC" class="btn-group btn-group-yesno" default="upcoming">
+					<option value="upcoming">MOD_WI_BANDSINTOWN_FIELD_PASTEVENTS_UPCOMING</option>
+					<option value="past">MOD_WI_BANDSINTOWN_FIELD_PASTEVENTS_PAST</option>
+					<option value="all">MOD_WI_BANDSINTOWN_FIELD_PASTEVENTS_ALL</option>
+				</field>
+				<field type="list" name="eventType" label="MOD_WI_BANDSINTOWN_FIELD_EVENTTYPE" description="MOD_WI_BANDSINTOWN_FIELD_EVENTTYPE_DESC" default="MusicEvent">
+					<option value="MusicEvent">MOD_WI_BANDSINTOWN_FIELD_EVENTTYPE_MUSICEVENT</option>
+					<option value="DanceEvent">MOD_WI_BANDSINTOWN_FIELD_EVENTTYPE_DANCEEVENT</option>
+					<option value="ComedyEvent">MOD_WI_BANDSINTOWN_FIELD_EVENTTYPE_COMEDYEVENT</option>
+					<option value="SocialEvent">MOD_WI_BANDSINTOWN_FIELD_EVENTTYPE_SOCIALEVENT</option>
+					<option value="Event">MOD_WI_BANDSINTOWN_FIELD_EVENTTYPE_EVENTEVENT</option>
+				</field>
+
+
+				<field type="note" name="spacer3" label="MOD_WI_BANDSINTOWN_FIELD_HEADER_DATETIME" />
+				<field type="radio" name="showEventTime" label="MOD_WI_BANDSINTOWN_FIELD_SHOWTIME" description="MOD_WI_BANDSINTOWN_FIELD_SHOWTIME_DESC" class="btn-group btn-group-yesno" default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="text" name="timeFormat" label="MOD_WI_BANDSINTOWN_FIELD_TIME_FORMAT" description="MOD_WI_BANDSINTOWN_FIELD_TIME_FORMAT_DESC" default="H:i" ></field>
+				<field type="text" name="dateFormat" label="MOD_WI_BANDSINTOWN_FIELD_DATE_FORMAT" description="MOD_WI_BANDSINTOWN_FIELD_DATE_FORMAT_DESC" default="d.m.Y" ></field>
+
+
+				<field type="note" name="spacer2" label="MOD_WI_BANDSINTOWN_FIELD_HEADER_LINKS" />
+				<field type="radio" name="showRSVPLink" label="MOD_WI_BANDSINTOWN_FIELD_RSVP_LINK" description="MOD_WI_BANDSINTOWN_FIELD_RSVP_LINK_DESC" class="btn-group btn-group-yesno" default="0">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field type="radio" name="showTicketLink" label="MOD_WI_BANDSINTOWN_FIELD_TICKET_LINK" description="MOD_WI_BANDSINTOWN_FIELD_TICKET_LINK_DESC" class="btn-group btn-group-yesno" default="0">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+
+				<field type="note" name="spacer4" label="MOD_WI_BANDSINTOWN_FIELD_HEADER_LINEUP" />
+				<field type="radio" name="showLineup" label="MOD_WI_BANDSINTOWN_FIELD_LINEUP_SHOW" description="MOD_WI_BANDSINTOWN_FIELD_LINEUP_SHOW_DESC" class="btn-group btn-group-yesno" default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field type="radio" name="lineupHideSelf" label="MOD_WI_BANDSINTOWN_FIELD_LINEUP_HIDEOWN" description="MOD_WI_BANDSINTOWN_FIELD_LINEUP_HIDEOWN_DESC" class="btn-group btn-group-yesno" default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field type="radio" name="lineupPosition" label="MOD_WI_BANDSINTOWN_FIELD_LINEUP_POSITION" description="MOD_WI_BANDSINTOWN_FIELD_LINEUP_POSITION_DESC" default="below">
+					<option value="col">MOD_WI_BANDSINTOWN_FIELD_LINEUP_POSITION_COL</option>
+					<option value="below">MOD_WI_BANDSINTOWN_FIELD_LINEUP_POSITION_BELOW</option>
+				</field>
+
+				<field type="radio" name="lineupFormat" label="MOD_WI_BANDSINTOWN_FIELD_LINEUP_FORMATTING" description="MOD_WI_BANDSINTOWN_FIELD_LINEUP_FORMATTING_DESC" default="text">
+					<option value="text">MOD_WI_BANDSINTOWN_FIELD_LINEUP_FORMATTING_NAME</option>
+					<option value="link">MOD_WI_BANDSINTOWN_FIELD_LINEUP_FORMATTING_LINK</option>
+					<option value="image">MOD_WI_BANDSINTOWN_FIELD_LINEUP_FORMATTING_IMAGE</option>
+				</field>
+
+
+				<field type="note" name="spacer5" label="MOD_WI_BANDSINTOWN_FIELD_HEADER_STYLING" />
+				<field type="text" name="tableClass" label="MOD_WI_BANDSINTOWN_FIELD_CSSCLASS" description="MOD_WI_BANDSINTOWN_FIELD_CSSCLASS_DESC" default="" ></field>
+				<field type="radio" name="responsiveTable" label="MOD_WI_BANDSINTOWN_FIELD_RESPONSIVENESS" description="MOD_WI_BANDSINTOWN_FIELD_RESPONSIVENESS_DESC" class="btn-group btn-group-yesno" default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="radio" name="noStyling" label="MOD_WI_BANDSINTOWN_FIELD_NOSTYLING" description="MOD_WI_BANDSINTOWN_FIELD_NOSTYLING_DESC" class="btn-group btn-group-yesno" default="0">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+
+				<field type="note" name="spacer6" label="MOD_WI_BANDSINTOWN_FIELD_HEADER_CACHING" />
+				<field type="radio" name="cachingEnable" label="MOD_WI_BANDSINTOWN_FIELD_CACHING_ENABLE" description="MOD_WI_BANDSINTOWN_FIELD_CACHING_ENABLE_DESC" class="btn-group btn-group-yesno" default="0">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field type="text" name="cachingDuration" label="MOD_WI_BANDSINTOWN_FIELD_CACHING_DURATION" description="MOD_WI_BANDSINTOWN_FIELD_CACHING_DURATION_DESC" default="30" ></field>
+
+
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>

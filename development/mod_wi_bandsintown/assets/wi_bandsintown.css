@@ -1,0 +1,42 @@
+
+
+
+.wi-bandsintown-table							{ border-collapse: collapse; border-spacing: 0; width:100%; max-width:100%; }
+.wi-bandsintown-table .padding					{ width: 20px; }
+.wi-bandsintown-table th,
+.wi-bandsintown-table td						{ vertical-align: middle; padding:10px 10px 10px 0; }
+
+.wi-bandsintown-table-styled					{  }
+.wi-bandsintown-table-styled th,
+.wi-bandsintown-table-styled td					{ border-bottom: 1px solid #2c3d37; }
+.wi-bandsintown-table-styled tr:last-child td	{ border-bottom: 0; }
+.wi-bandsintown-table-styled tr.hidden-event	{ color: #666; }
+.wi-bandsintown-table-styled .wi-lineup-below,
+.wi-bandsintown-table-styled .wi-lineup-col		{ font-size:14px; }
+.wi-bandsintown-table-styled .wi-lineup-below a,
+.wi-bandsintown-table-styled .wi-lineup-col a	{ font-size:14px; }
+
+
+
+
+
+@media screen and (max-width: 767px) {
+
+	/* Force table to not be like tables anymore */
+	.wi-bandsintown-responsive-table,
+	.wi-bandsintown-responsive-table thead,
+	.wi-bandsintown-responsive-table tbody,
+	.wi-bandsintown-responsive-table th,
+	.wi-bandsintown-responsive-table td,
+	.wi-bandsintown-responsive-table tr 						{ display: block; }
+	.wi-bandsintown-responsive-table thead tr 					{ position: absolute; top: -9999px; left: -9999px; }
+	.wi-bandsintown-responsive-table tr 						{ border: none; margin-bottom: 40px; }
+	.wi-bandsintown-responsive-table td 						{ display:none; }
+	.wi-bandsintown-responsive-table .padding 					{ display:none; }
+	.wi-bandsintown-responsive-table th							{ display:none; }
+	.wi-bandsintown-responsive-table td[data-title] 			{ display:block; border: none; border-bottom: 1px solid #2C3D37; position: relative; padding: 5px 5px 5px 40%; white-space: normal; text-align: left; }
+	.wi-bandsintown-responsive-table .last,
+	.wi-bandsintown-responsive-table td:last-child 				{ border: none; }
+	.wi-bandsintown-responsive-table td[data-title]:before 		{ position: absolute; top: 6px; left: 6px; width: 30%; padding-right: 10px; white-space: nowrap; text-align: left; font-weight: bold; content: attr(data-title); }
+
+}
