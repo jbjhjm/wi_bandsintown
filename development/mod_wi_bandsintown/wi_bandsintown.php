@@ -2,6 +2,7 @@
 <%= phpbanner %>
 
 
+
 class wi_bandsintown {
 
 	var $params;
@@ -21,6 +22,7 @@ class wi_bandsintown {
 		$task = JRequest::GetVar('wi_bandsintown_task',false);
 		if(!$task) return;
 		if($task == 'toggle') $this->task_toggle();
+		if($task == 'reload') $this->task_reload();
 
 	}
 
@@ -39,6 +41,22 @@ class wi_bandsintown {
 
 		return $storedEvents;
 
+	}
+
+	function task_reload() {
+
+		$id = (int)JRequest::GetVar('wi_bandsintown_id',false);
+		if(!$this->isAdmin || !$id) return;
+
+
+		$db = JFactory::GetDbo();
+		$query = 'DELETE FROM `#__wi_bandsintown_events` WHERE id='.$id.' LIMIT 1';
+		$db->setQuery($query);
+		$db->execute();
+
+		JFactory::GetApplication()->redirect(JURI::Current(), 'Event reloaded successfully!', 'success');
+
+		return $storedEvents;
 
 	}
 
@@ -67,7 +85,8 @@ class wi_bandsintown {
 
 		$data = $this->loadEventsFromDatabase();
 		foreach($data as $i=>$row) {
-			$data[$i]->artists = json_decode($row->artists);
+			$data[$i]->offers = json_decode($row->offers);
+			$data[$i]->lineup = json_decode($row->lineup);
 			$data[$i]->venue = json_decode($row->venue);
 		}
 
@@ -86,7 +105,7 @@ class wi_bandsintown {
 
 		$reqData = array();
 		$reqData['app_id'] = $appId;
-		$reqData['api_version'] = '2.0';
+		// $reqData['api_version'] = '2.0';
 		$urlData = array();
 
 		foreach($reqData as $k=>$v) $urlData[] = $k.'='.rawurlencode($v);
@@ -95,7 +114,7 @@ class wi_bandsintown {
 		# http://api.bandsintown.com/artists/Skrillex.json?api_version=2.0&app_id=YOUR_APP_ID -- artist information
 		# http://api.bandsintown.com/artists/Skrillex/events.json?api_version=2.0&app_id=YOUR_APP_ID -- event data
 
-		$this->url = 'http://api.bandsintown.com/artists/'.rawurlencode($artistName).'/events.json?'.implode('&',$urlData);
+		$this->url = 'http://rest.bandsintown.com/artists/'.rawurlencode($artistName).'/events?'.implode('&',$urlData);
 
 		#  jimport('joomla.http');
 		# response = {code,headers,body}
@@ -112,13 +131,21 @@ class wi_bandsintown {
 
 
 		$data = json_decode($data);
+
 		if($data===false) return false;
+
+		// var_dump($data);die;
 
 		// if(!$data) {
 		// 	return $this->error('response is no json!');
 		// }
 		if(!is_array($data) && $data->errors) {
 			return $this->error('request error: '.implode(', ',$data->errors));
+		}
+
+		foreach($data as $i => $v) {
+			// legacy transforms
+			// $data[$i]->facebook_rsvp_url = $data[$i]->url;
 		}
 
 		return $data;
@@ -168,17 +195,20 @@ class wi_bandsintown {
 
 			$dbRow = new StdClass();
 			$dbRow->bitid 				= $newEvent->id;
+			$dbRow->on_sale_datetime 	= $newEvent->on_sale_datetime;
 			$dbRow->datetime 			= $newEvent->datetime;
-			$dbRow->title 				= $newEvent->title;
-			$dbRow->ticket_url 			= $newEvent->ticket_url;
-			$dbRow->ticket_type 		= $newEvent->ticket_type;
-			$dbRow->ticket_status 		= $newEvent->ticket_status;
-			$dbRow->facebook_rsvp_url 	= $newEvent->facebook_rsvp_url;
+			$dbRow->title 				= $newEvent->venue->name;
+			$dbRow->offers 				= is_array($newEvent->offers) ? $newEvent->offers : array();
+			$dbRow->lineup 				= is_array($newEvent->lineup) ? $newEvent->lineup : array();
+			// $dbRow->ticket_url 			= $newEvent->ticket_url;
+			// $dbRow->ticket_type 		= $newEvent->ticket_type;
+			// $dbRow->ticket_status 		= $newEvent->ticket_status;
+			$dbRow->url 				= $newEvent->url;
 			$dbRow->description 		= $newEvent->description;
-			$dbRow->artists 			= $newEvent->artists;
 			$dbRow->venue 				= $newEvent->venue;
 
-			if(!is_string($dbRow->artists)) $dbRow->artists = json_encode($dbRow->artists);
+			if(!is_string($dbRow->offers)) $dbRow->offers = json_encode($dbRow->offers);
+			if(!is_string($dbRow->lineup)) $dbRow->lineup = json_encode($dbRow->lineup);
 			if(!is_string($dbRow->venue)) 	$dbRow->venue = json_encode($dbRow->venue);
 
 			$foundIndex = false;
@@ -229,29 +259,37 @@ class wi_bandsintown {
 			if($date->getTimestamp() < time()) {
 				# past event!
 				$e->facebook_rsvp_url = false;
+				$e->url = false;
 				$e->ticket_url = false;
+				$e->offers = false;
 			}
 
 			$e->formattedLineup = array();
-			foreach($e->artists as $i2=>$a) {
+			foreach($e->lineup as $i2=>$a) {
 
-				if($lineupHideSelf == '1' && $a->name == $artistName) continue;
-				$artistInfo = '';
+				if(is_string($a)) {
+					$e->formattedLineup[] = $a;
+				} else {
+					if($lineupHideSelf == '1' && $a->name == $artistName) continue;
+					$artistInfo = '';
 
-				if($lineupFormat=='image') $artistInfo = '<img src="'.$a->thumb_url.'" alt="'.$a->name.'" />';
-				else $artistInfo = $a->name;
+					if($lineupFormat=='image') $artistInfo = '<img src="'.$a->thumb_url.'" alt="'.$a->name.'" />';
+					else $artistInfo = $a->name;
 
-				if($lineupFormat!='text' && $a->facebook_tour_dates_url) $artistInfo =  '<a href="'.$a->facebook_tour_dates_url.'" target="_blank">'.$artistInfo.'</a>';
+					if($lineupFormat!='text' && $a->facebook_tour_dates_url) $artistInfo =  '<a href="'.$a->facebook_tour_dates_url.'" target="_blank">'.$artistInfo.'</a>';
 
-				$e->formattedLineup[] = $artistInfo;
+					$e->formattedLineup[] = $artistInfo;
+				}
 
 			}
-			if($lineupFormat!='image') $e->formattedLineup = implode(', ',$e->formattedLineup);
-			else $e->formattedLineup = implode(' ',$e->formattedLineup);
+			$e->formattedLineup = implode(', ',$e->formattedLineup);
+			// if($lineupFormat!='image') $e->formattedLineup = implode(', ',$e->formattedLineup);
+			// else $e->formattedLineup = implode(' ',$e->formattedLineup);
 
 			if($this->isAdmin) {
 				$e->admin = true;
 				$e->toggleVisibilityUrl = JURI::Current().'?wi_bandsintown_task=toggle&wi_bandsintown_id='.$e->id;
+				$e->toggleReloadUrl = JURI::Current().'?wi_bandsintown_task=reload&wi_bandsintown_id='.$e->id;
 			}
 
 			$events[$i] = $e;

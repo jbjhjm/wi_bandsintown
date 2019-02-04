@@ -231,13 +231,14 @@ module.exports = function(grunt) {
 	// grunt.registerTask('default', [ 'copy' ]);
 	grunt.registerTask('deploy', [ 'clean:deployDir' , 'copy:component' , 'concat', 'less:development', 'uglify:js' ]);
 	grunt.registerTask('release', [ 'clean:deployDir' , 'copy:component' , 'concat', 'less:development', 'uglify:js', 'compress:component', 'compress:plugin' ]);
+	grunt.registerTask('build', [ 'clean:deployDir' , 'copy:component' , 'concat', 'less:development', 'uglify:js', 'compress:component', 'compress:plugin' ]);
 	grunt.registerTask('stage', [ 'clean:deployDir' , 'copy:component' , 'concat', 'less:development', 'copy:staging' ]);
 	//grunt.registerTask('default', ['concat']);
 
 	grunt.registerTask('default', function() {
 		console.log('Choose one of the registered tasks:');
 		console.log('deploy / watch:deploy - compile and minify');
-		console.log('release - compile and minify, create zip release files');
+		console.log('build / release - compile and minify, create zip release files');
 		console.log('stage / watch:stage - compile and copy to stage');
 	});
 

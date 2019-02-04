@@ -34,9 +34,13 @@
 	.wi-bandsintown-responsive-table td 						{ display:none; }
 	.wi-bandsintown-responsive-table .padding 					{ display:none; }
 	.wi-bandsintown-responsive-table th							{ display:none; }
-	.wi-bandsintown-responsive-table td[data-title] 			{ display:block; border: none; border-bottom: 1px solid #2C3D37; position: relative; padding: 5px 5px 5px 40%; white-space: normal; text-align: left; }
+	.wi-bandsintown-responsive-table tr td[data-title] 			{ display:block; border: none; border-bottom: 1px solid #2C3D37;
+																	position: relative; padding: 5px 5px 5px 40%; white-space: normal;
+																	text-align: left; min-height: 28px; }
 	.wi-bandsintown-responsive-table .last,
-	.wi-bandsintown-responsive-table td:last-child 				{ border: none; }
-	.wi-bandsintown-responsive-table td[data-title]:before 		{ position: absolute; top: 6px; left: 6px; width: 30%; padding-right: 10px; white-space: nowrap; text-align: left; font-weight: bold; content: attr(data-title); }
+	.wi-bandsintown-responsive-table td:last-child 				{ border: none!important; }
+	.wi-bandsintown-responsive-table td[data-title]:before 		{ position: absolute; top: 6px; left: 6px; width: 30%; padding-right: 10px;
+																	white-space: nowrap; text-align: left; font-weight: bold;
+																	content: attr(data-title); }
 
 }

@@ -130,8 +130,8 @@ else
 
 			<?php if($params->get('showTicketLink',0)=='1'): ?>
 			<td data-title="<?php echo JText::_('MOD_WI_BANDSINTOWN_HEADER_TICKETS') ?>" class="<?php echo $lastCol['TicketLink'] ?>">
-				<?php if($e->ticket_url): ?>
-				<a class="wi-bandsintown-button wi-bandsintown-button-tickets" target="_blank" href="<?php echo $e->ticket_url; ?>">Tickets</a>
+				<?php if(count($e->offers)): ?>
+				<a class="wi-bandsintown-button wi-bandsintown-button-tickets" target="_blank" href="<?php echo $e->offers[0]->url; ?>">Tickets</a>
 				<?php endif; ?>
 			</td>
 			<?php endif; ?>
@@ -148,6 +148,9 @@ else
 			<td data-title="">
 				<a class="wi-bandsintown-button wi-bandsintown-button-rsvp" href="<?php echo $e->toggleVisibilityUrl; ?>" itemprop="url">
 					<?php echo ($e->visible==1) ? 'hide' : 'show'; ?>
+				</a> &nbsp;
+				<a class="wi-bandsintown-button wi-bandsintown-button-rsvp" href="<?php echo $e->toggleReloadUrl; ?>" itemprop="url">
+					reload
 				</a>
 			</td>
 			<?php endif; ?>
