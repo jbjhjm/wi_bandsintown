@@ -4,7 +4,7 @@ Includes caching mechanism and storage/archive view for past events.
 In opposite to javascript-based bandsintown widget it has additional layout/feature settings, adaptive styling and better responsiveness.
 
 # Building
-Make sure [https://nodejs.org/en/download/](NodeJS) is installed, then download or clone the repository: `git clone https://github.com/jbjhjm/wi_bandsintown.git`
+Make sure [NodeJS](https://nodejs.org/en/download/) is installed, then download or clone the repository: `git clone https://github.com/jbjhjm/wi_bandsintown.git`
 
 Change to development directory and run `npm install`.
 
